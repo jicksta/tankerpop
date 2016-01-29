@@ -1,0 +1,8 @@
+console:
+  dockerfile: gremlin-console.dockerfile
+  build: .
+server:
+  dockerfile: gremlin-server.dockerfile
+  build: .
+  ports:
+   - "8182:8182"
