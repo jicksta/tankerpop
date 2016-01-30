@@ -1,8 +1,14 @@
 console:
   dockerfile: gremlin-console.dockerfile
   build: .
+  volumes:
+    - ./gremlin-console/conf:/gremlin-console/conf
+    - ./gremlin-console/data:/gremlin-console/data
 server:
   dockerfile: gremlin-server.dockerfile
   build: .
   ports:
    - "8182:8182"
+  volumes:
+    - ./gremlin-server/conf:/gremlin-server/conf
+    - ./gremlin-server/scripts:/gremlin-server/scripts
