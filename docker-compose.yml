@@ -1,6 +1,8 @@
 console:
   dockerfile: gremlin-console.dockerfile
   build: .
+  links:
+    - server
   volumes:
     - ./gremlin-console/conf:/gremlin-console/conf
     - ./gremlin-console/data:/gremlin-console/data
