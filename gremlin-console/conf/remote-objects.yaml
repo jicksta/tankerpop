@@ -35,7 +35,7 @@
 # - gremlin-server-secure.yaml
 ##############################################################
 
-hosts: [localhost]
+hosts: [server]
 port: 8182
 serializer: { className: org.apache.tinkerpop.gremlin.driver.ser.GryoMessageSerializerV1d0,
               config: { ioRegistries: [org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerIoRegistry] }}

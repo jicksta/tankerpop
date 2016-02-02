@@ -35,36 +35,9 @@ All images are based on `library/clojure` (which is a descendant of `library/jav
 Starting Gremlin Console with Gremlin Server
 --------------------------------------------
 
-To get the IP address of your Gremlin Server container, run the following command:
+Once you start the Gremlin `console` container, you will need to issue a command to connect it to the other `server` container started by Docker Compose. You do that by loading a config file by its file path. The `gremlin-console/conf` directory contains the example config files that come with Gremlin Console. `remote.yaml`, `remote-objects.yaml` and `remote-secure.yaml` have had the hosts they connect to changed from "localhost" to "server", the host that's created by Docker itself in the container's `/etc/hosts` file.
 
-    docker-compose run --entrypoint=env console | grep SERVER_PORT_8182_TCP_ADDR=
-
-This will output a value similar to this:
-
-    SERVER_PORT_8182_TCP_ADDR=172.17.0.3
-
-This IP address is what we must put in the YAML file that Gremlin Console will use to establish its
-connection to the server.
-
-The file `gremlin-console/remote.yaml` is automatically .gitignored, so you can conveniently
-copy a config file from `gremlin-console/conf` to `gremlin-console/remote.yaml`, for example:
-
-    cp gremlin-console/conf/remote.yaml gremlin-console/remote.yaml
-
-Next, edit the `gremlin-console/remote.yaml` file's `hosts` value to refer to the IP address
-above instead of `localhost`:
-
-```yml
-# gremlin-console/remote.yaml
-hosts: ["172.17.0.3"]
-port: 8182
-serializer: { className: org.apache.tinkerpop.gremlin.driver.ser.GryoMessageSerializerV1d0, config: { serializeResultToString: true }}
-```
-
-There are other remote configurations in the `conf/` directory but `conf/remote.yaml` should suffice
-for experimentation.
-
-Now you are ready to connect the console to the server:
+To start the console and connect it to the server:
 
     $ docker-compose run console
     Jan 31, 2016 3:14:40 AM java.util.prefs.FileSystemPreferences$1 run
@@ -77,7 +50,10 @@ Now you are ready to connect the console to the server:
     plugin activated: tinkerpop.utilities
     plugin activated: tinkerpop.tinkergraph
     gremlin> // This is the Gremlin console. Let's connect it to the server now:
-    gremlin> :remote connect tinkerpop.server remote.yaml
+    gremlin> :remote connect tinkerpop.server conf/remote.yaml
+    WARN  org.apache.tinkerpop.gremlin.driver.Client  - Could not initialize connection pool for Host{address=server/172.17.0.3:8182, hostUri=ws://server:8182/gremlin} - will try later
+    ==>Connected - server/172.17.0.3:8182
+    gremlin>
 
 
 The REPL is a Groovy-based console but the `:remote` command is an instruction to the Gremlin console
@@ -91,11 +67,11 @@ Now you're ready to start tinkering!
     ==>graphtraversalsource[tinkergraph[vertices:6 edges:14], standard]
     gremlin> g.V().values("name")
     ==>marko
-    ==>stephen
-    ==>matthias
-    ==>daniel
-    ==>gremlin
-    ==>tinkergraph
+    ==>vadas
+    ==>lop
+    ==>josh
+    ==>ripple
+    ==>peter
     gremlin>
 
 A good next-step from here might be the [Getting Started Workout Tutorial](https://tinkerpop.apache.org/docs/3.1.0-incubating/tutorials-getting-started.html) or the fantastic [TinkerPop documentation](https://tinkerpop.apache.org/docs/3.1.0-incubating/).

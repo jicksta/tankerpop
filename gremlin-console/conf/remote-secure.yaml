@@ -24,7 +24,7 @@
 # - gremlin-server-secure.yaml
 ##############################################################
 
-hosts: [localhost]
+hosts: [server]
 port: 8182
 username: stephen
 password: password
